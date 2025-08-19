@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../_lib/authContext";
+import { RandomUserResponse, useAuth } from "../_lib/authContext";
 
 interface LoginFormValues {
   phone: string;
@@ -25,7 +25,7 @@ export function useLoginForm() {
     onSubmit: async (_values) => {
       try {
         const res = await fetch("https://randomuser.me/api/?results=1&nat=us");
-        const data = await res.json();
+        const data:RandomUserResponse  = await res.json();
         const userData = data.results[0];
 
         localStorage.setItem("user", JSON.stringify(userData));

@@ -1,6 +1,5 @@
 "use client";
 
-import { object, string }  from "yup"
 import styles from "./LoginForm.module.scss";
 import BaseInput from "../BaseInput/BaseInput";
 import BaseButton from "../BaseButton/BaseButton";
