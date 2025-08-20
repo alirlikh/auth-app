@@ -1,7 +1,7 @@
 "use client";
 
 import {  useRouter } from "next/navigation";
-import { useAuth } from "../_lib/authContext";
+import { useAuth } from "../../_lib/authContext";
 import { useEffect } from "react";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

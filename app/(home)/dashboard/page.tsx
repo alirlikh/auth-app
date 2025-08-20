@@ -1,13 +1,13 @@
 import { Metadata } from "next";
-import LoginForm from "../component/LoginForm/LoginForm"
+import Dashboard from "../../component/Dashboard/Dashboard"
 
 export const metadata: Metadata = {
-  title: 'my App | login',
+  title: 'my App',
 };
 
 const page = () => {
   return (
-    <LoginForm />
+   <Dashboard />
   )
 }
 export default page
