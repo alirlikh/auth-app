@@ -1,24 +1,22 @@
 "use client";
 
-import { redirect, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { useAuth } from "../_lib/authContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
 
   const { user } = useAuth();
-  const [hydrated, setHydrated] = useState(false);
   const router = useRouter()
 
-  useEffect(() => {
-    setHydrated(true);
-  }, []);
 
-  if (!hydrated) return null; 
+   useEffect(() => {
+    if (!user) {
+      router.replace("/auth"); 
+    }
+  }, [user, router]);
 
-  if (!user) {
-   router.push("/auth")
-  }
+  if (!user) return null;
    
   return (
     <section>
