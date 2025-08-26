@@ -78,19 +78,19 @@ type AuthContextType = {
    login: (userData: RandomUser) => void;
 };
 
+const getInitialUser = (): RandomUser | null => {
+  if (typeof window !== "undefined") {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  }
+  return null;
+};
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<RandomUser | null>(null);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    }
-  }, []);
+const [user, setUser] = useState<RandomUser | null>(getInitialUser);
 
   const login = (userData: RandomUser) => {
     setUser(userData);
