@@ -9,8 +9,7 @@ interface LoginFormValues {
 }
 
 export function useLoginForm() {
-  const { setUser } = useAuth();
-  const router = useRouter();
+  const { login  } = useAuth();
 
   const validationSchema = Yup.object({
     password: Yup.string().min(4, "Password too short").required("Password is required"),
@@ -27,10 +26,8 @@ export function useLoginForm() {
         const res = await fetch("https://randomuser.me/api/?results=1&nat=us");
         const data:RandomUserResponse  = await res.json();
         const userData = data.results[0];
+        login(userData)
 
-        localStorage.setItem("user", JSON.stringify(userData));
-        setUser(userData);
-        router.push("/dashboard");
       } catch (err) {
         console.error(err);
         alert("Login failed");

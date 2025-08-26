@@ -1,29 +1,22 @@
-"use client";
+import DashboardHeader from "@/app/component/DashboardHeader/DashboardHeader";
+import DashboardSidebar from "@/app/component/DashboardSidebar/DashboardSidebar";
+import { ReactNode } from "react";
 
-import {  useRouter } from "next/navigation";
-import { useAuth } from "../../_lib/authContext";
-import { useEffect } from "react";
+export const metadata = {
+  title: 'Dashboard - my app',
+  description: 'Dashboard area',
+};
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-
-  const { user } = useAuth();
-  const router = useRouter()
-
-
-   useEffect(() => {
-    if (!user) {
-      router.replace("/auth"); 
-    }
-  }, [user, router]);
-
-  if (!user) return null;
-   
+export default function DashboardLayout({ children }:{children :  ReactNode}) {
   return (
-    <section>
-      <header>
-        <h1>Admin Dashboard</h1>
-      </header>
-      <main>{children}</main>
-    </section>
+    <div className="min-h-screen bg-gray-50">
+      <DashboardHeader />
+      <div className="flex">
+        <DashboardSidebar />
+        <main className="flex-1 p-6">
+          {children}
+        </main>
+      </div>
+    </div>
   );
 }

@@ -1,6 +1,8 @@
-"use client";
+'use client';
 
-import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode, SetStateAction } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { hasRequiredRole } from './auth-utils';
 
 
 export interface RandomUserResponse {
@@ -71,52 +73,104 @@ export interface RandomUser {
 }
 
 
-type AuthContextType = {
+interface AuthContextType {
   user: RandomUser | null;
-  setUser: React.Dispatch<React.SetStateAction<RandomUser | null>>
+  login: (userData: RandomUser) => void;
   logout: () => void;
-   login: (userData: RandomUser) => void;
-};
+  loading: boolean;
+  hasRole: (role: string) => boolean;
+  setUser: React.Dispatch<React.SetStateAction<RandomUser | null>>;
+  isAuthenticated: boolean;
+}
 
-const getInitialUser = (): RandomUser | null => {
-  if (typeof window !== "undefined") {
-    const stored = localStorage.getItem("user");
-    return stored ? JSON.parse(stored) : null;
-  }
-  return null;
-};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
 
-const [user, setUser] = useState<RandomUser | null>(getInitialUser);
+export const AuthProvider = ({ children }: {children: ReactNode}) => {
+  const [user, setUser] = useState<RandomUser | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const login = (userData: RandomUser) => {
-    setUser(userData);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("user", JSON.stringify(userData));
+  useEffect(() => {
+    checkAuthState();
+  }, []);
+
+  const checkAuthState = () => {
+    try {
+      // Check localStorage for user data
+      const userData = localStorage.getItem('user');
+      const authToken = localStorage.getItem('auth-token');
+      
+      if (userData && authToken) {
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+        
+        // Set cookie for middleware to read
+        document.cookie = `auth-token=${authToken}; path=/; max-age=86400`; // 24 hours
+      } else {
+        // Clear any stale auth data
+        clearAuthData();
+      }
+    } catch (error) {
+      console.error('Error checking auth state:', error);
+      clearAuthData();
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const clearAuthData = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('auth-token');
+    document.cookie = 'auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  };
+
+  const login = (userData: RandomUser): void => {
+    const authToken = `token_${userData.id}_${Date.now()}`; // Generate simple token
+    
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('auth-token', authToken);
+    
+    // Set cookie for middleware
+    document.cookie = `auth-token=${authToken}; path=/; max-age=86400`;
+    
+    // Handle redirect after login
+    const redirectUrl = searchParams?.get('redirect') || '/dashboard';
+    router.push(redirectUrl);
   };
 
   const logout = () => {
     setUser(null);
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("user");
+    clearAuthData();
+    router.push('/login');
+  };
+
+  const hasRole = (requiredRole: any) => {
+    if (!user) return false;
+    return hasRequiredRole(user.role, requiredRole);
+  };
+
+  const value :  AuthContextType = {
+    user,
+    login,
+    logout,
+    loading,
+    hasRole,
+    isAuthenticated: !!user,
+    setUser: function (value: SetStateAction<RandomUser | null>): void {
+      throw new Error('Function not implemented.');
     }
   };
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout ,setUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-}

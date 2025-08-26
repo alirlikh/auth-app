@@ -1,8 +1,8 @@
 "use client";
 
 import { useAuth } from "@/app/_lib/authContext";
-import styles from "./Dashboard.module.scss";
 import BaseButton from "../BaseButton/BaseButton";
+import styles from "./Dashboard.module.scss";
 
 export default function DashboardPage() {
   const { user , logout} = useAuth();
