@@ -1,4 +1,3 @@
-// app/settings/page.js (Example protected route)
 export default function SettingsPage() {
   return (
     <div>
