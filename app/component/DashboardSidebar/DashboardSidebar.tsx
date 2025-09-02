@@ -20,7 +20,7 @@ const DashboardSidebar = () => {
   ];
 
   return (
-    <div className="w-64 bg-white shadow-sm h-screen sticky top-0">
+    <div className="w-64 bg-white shadow-sm h-screen ">
       <nav className="mt-5 px-2">
         <div className="space-y-1">
           {navigation.map((item) => (

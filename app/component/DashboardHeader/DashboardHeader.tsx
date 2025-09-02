@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuth } from "@/app/_lib/authContext";
+import Menu, { menuList } from "../Menu/Menu";
 
 
 const DashboardHeader = () => {
@@ -21,6 +22,9 @@ const DashboardHeader = () => {
             Logout
           </button>
         </div>
+        <nav className="my-2 mx-2 p-1">
+        <Menu items={menuList} isRoot />
+        </nav>
       </div>
     </header>
   );
