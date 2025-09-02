@@ -38,7 +38,7 @@ const Menu: FC<MenuProps> = ({ items, isRoot = false }) => {
   return (
     <ul
       role="menu"
-      className={isRoot ? "flex flex-row space-x-6" : "absolute left-14 top-10 bg-gray-300"}
+      className={isRoot ? "flex flex-row space-x-6" : "absolute left-14 top-10 bg-gray-300 z-50"}
     >
       {items.map((item) => {
         const [open, setOpen] = useState(false);
