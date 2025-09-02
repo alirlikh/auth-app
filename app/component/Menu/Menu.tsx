@@ -1,4 +1,7 @@
-import { FC, useRef, useState } from "react";
+import { FC, lazy, Suspense, useRef, useState } from "react";
+import CollapseIcon from "../icons/CollapseIcon";
+
+const ArrowIcon  = lazy(()=> import("../icons/ArrowIcon"))
 
 export interface MenuItem {
   title: string;
@@ -38,7 +41,7 @@ const Menu: FC<MenuProps> = ({ items, isRoot = false }) => {
   return (
     <ul
       role="menu"
-      className={isRoot ? "flex flex-row space-x-6" : "absolute left-14 top-10 bg-gray-300 z-50"}
+      className={isRoot ? "flex flex-row space-x-6" : "absolute left-14 top-10 bg-gray-200 z-50 rounded-lg p-2 m-1"}
     >
       {items.map((item) => {
         const [open, setOpen] = useState(false);
@@ -101,7 +104,14 @@ const Menu: FC<MenuProps> = ({ items, isRoot = false }) => {
               onKeyDown={handleKeyDown}
             >
               <span>{item.title}</span>
-              {hasChildren && <span>{open ? "▲" : "▼"}</span>}
+              {Boolean(hasChildren) &&
+              <span className="w-5 pl-2">
+                 <Suspense>
+                {open ? <ArrowIcon className="rotate-180" />: <ArrowIcon />}
+                </Suspense> 
+                </span>
+              }
+             
             </button>
             {hasChildren && open && <Menu items={item.children!} />}
           </li>
