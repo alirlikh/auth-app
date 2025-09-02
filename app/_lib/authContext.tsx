@@ -15,7 +15,7 @@ export interface RandomUserResponse {
   };
 }
 
-export interface RandomUser {
+export interface RandomUser extends UserRole {
   gender: string;
   name: {
     title: string;
@@ -70,6 +70,10 @@ export interface RandomUser {
     thumbnail: string;
   };
   nat: string;
+}
+
+export interface UserRole {
+  role? : string
 }
 
 

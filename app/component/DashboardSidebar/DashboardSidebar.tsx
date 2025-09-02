@@ -15,8 +15,8 @@ const DashboardSidebar = () => {
 
   // Admin-only navigationjust for test
   const adminNavigation = [
-    { name: 'Admin Panel', href: '/admin', icon: '🔧' },
-    { name: 'Manage Users', href: '/users', icon: '👥' },
+    { name: 'Admin Panel', href: '/dashboard/admin', icon: '🔧' },
+    // { name: 'Manage Users', href: '/users', icon: '👥' },
   ];
 
   return (

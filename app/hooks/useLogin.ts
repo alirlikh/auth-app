@@ -26,7 +26,8 @@ export function useLoginForm() {
         const res = await fetch("https://randomuser.me/api/?results=1&nat=us");
         const data:RandomUserResponse  = await res.json();
         const userData = data.results[0];
-        login(userData)
+        const myUser = {...userData , role:"user"}
+        login(myUser)
 
       } catch (err) {
         console.error(err);
