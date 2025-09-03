@@ -1,6 +1,4 @@
 import { FC, lazy, Suspense, useRef, useState } from "react";
-import CollapseIcon from "../icons/CollapseIcon";
-
 const ArrowIcon  = lazy(()=> import("../icons/ArrowIcon"))
 
 export interface MenuItem {
@@ -41,7 +39,7 @@ const Menu: FC<MenuProps> = ({ items, isRoot = false }) => {
   return (
     <ul
       role="menu"
-      className={isRoot ? "flex flex-row space-x-6" : "absolute left-14 top-10 bg-gray-200 z-50 rounded-lg p-2 m-1"}
+      className={isRoot ? "flex flex-row space-x-6" : "absolute left-[70] top-10 bg-gray-200 z-50 rounded-lg p-2 m-2"}
     >
       {items.map((item) => {
         const [open, setOpen] = useState(false);

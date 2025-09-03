@@ -1,16 +1,15 @@
-"use client";
+"use client"
 
-import styles from "./LoginForm.module.scss";
-import BaseInput from "../BaseInput/BaseInput";
-import BaseButton from "../BaseButton/BaseButton";
-import { useLoginForm } from "@/app/hooks/useLogin";
-
+import styles from "./LoginForm.module.scss"
+import BaseInput from "../BaseInput/BaseInput"
+import BaseButton from "../BaseButton/BaseButton"
+import { useLoginForm } from "@/app/hooks/useLogin"
 
 export default function LoginForm() {
-   const formik = useLoginForm();
+  const formik = useLoginForm()
 
   return (
-      <form onSubmit={formik.handleSubmit} className={styles.form}>
+    <form onSubmit={formik.handleSubmit} className={styles.form}>
       <BaseInput
         label="Phone Number"
         name="phone"
@@ -42,5 +41,5 @@ export default function LoginForm() {
         {formik.isSubmitting ? "Logging in..." : "Login"}
       </BaseButton>
     </form>
-  );
+  )
 }

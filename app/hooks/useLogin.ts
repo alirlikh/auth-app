@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useRouter } from "next/navigation";
 import { RandomUserResponse, useAuth } from "../_lib/authContext";
+import { object, string } from "yup";
 
 interface LoginFormValues {
   phone: string;
@@ -11,9 +10,9 @@ interface LoginFormValues {
 export function useLoginForm() {
   const { login  } = useAuth();
 
-  const validationSchema = Yup.object({
-    password: Yup.string().min(4, "Password too short").required("Password is required"),
-    phone: Yup.string()
+  const validationSchema = object({
+    password: string().min(4, "Password too short").required("Password is required"),
+    phone: string()
       .matches(/^09\d{9}$/, "Phone number must be 11 digits and start with 09")
       .required("Phone number is required"),
   });
@@ -21,12 +20,12 @@ export function useLoginForm() {
   return useFormik<LoginFormValues>({
     initialValues: {  password: "", phone: "" },
     validationSchema,
-    onSubmit: async (_values) => {
+    onSubmit: async () => {
       try {
         const res = await fetch("https://randomuser.me/api/?results=1&nat=us");
         const data:RandomUserResponse  = await res.json();
         const userData = data.results[0];
-        const myUser = {...userData , role:"user"}
+        const myUser = {...userData , role:"admin"}
         login(myUser)
 
       } catch (err) {
