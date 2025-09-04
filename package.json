@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint && npm run stylelint",
+    "stylelint": "stylelint \"**/*.css\" --cache"
   },
   "dependencies": {
     "formik": "^2.4.6",
@@ -21,6 +22,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "9.34.0",
+    "eslint-config-next": "15.5.2",
+    "stylelint": "^16.23.1",
+    "stylelint-config-standard": "^39.0.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
