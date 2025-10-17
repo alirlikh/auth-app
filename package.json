@@ -1,6 +1,6 @@
 {
   "name": "auth-app",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -10,8 +10,8 @@
     "stylelint": "stylelint \"**/*.css\" --cache",
     "test": "jest",
     "release": "standard-version",
-    "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
+    "release:minor": "standard-version --release-as minor",
     "release:major": "standard-version --release-as major"
   },
   "dependencies": {
