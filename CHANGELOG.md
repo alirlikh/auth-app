@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/alirlikh/auth-app/compare/v2.1.4...v2.2.0) (2026-01-07)
+
+
+### Features
+
+* update the minor version of packages ([f838fa2](https://github.com/alirlikh/auth-app/commit/f838fa204f6b8b7fb662a0e55e322b14e8e8fb10))
+
 ### [2.1.4](https://github.com/alirlikh/auth-app/compare/v2.1.3...v2.1.4) (2025-10-17)
 
 ### [2.1.3](https://github.com/alirlikh/auth-app/compare/v2.1.2...v2.1.3) (2025-10-17)
